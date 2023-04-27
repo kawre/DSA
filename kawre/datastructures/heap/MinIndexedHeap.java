@@ -30,7 +30,7 @@ public class MinIndexedHeap<T> {
 	private void siftup(int i) {
 		int parent = (i - 1) / 2;
 
-		while (less(i, parent)) {
+		while (i != 0 && less(i, parent)) {
 			swap(i, parent);
 			i = parent;
 			parent = (i - 1) / 2;
@@ -38,34 +38,35 @@ public class MinIndexedHeap<T> {
 	}
 
 	private void siftdown(int i) {
-		int left = (i * 2) + 1;
-		int right = (i * 2) + 2;
+		int left = (i * 2) + 1, right = left + 1;
 
 		while ((left < size() && less(left, i)) || (right < size() && less(right, i))) {
 			int smallest = right >= size() || less(left, right) ? left : right;
 			swap(i, smallest);
 			i = smallest;
 			left = (i * 2) + 1;
-			right = (i * 2) + 2;
+			right = left + 1;
 		}
+
 	}
 
 	// O(log(n))
 	public void insert(int ki, T val) {
-		if (contains(ki))
-			throw new IllegalArgumentException("index already exists; received: " + ki);
+		keyNotExistsOrThrow(ki);
 		valueNotNullOrThrow(val);
 
-		vals[ki] = val;
-		pm[ki] = sz;
-		im[sz] = ki;
+		setValue(ki, val);
+		setIndex(ki, sz);
+		setKeyIndex(sz, ki);
+
 		siftup(sz++);
 	}
 
 	// O(log(n))
 	public T delete(int ki) {
 		keyExistsOrThrow(ki);
-		final int i = getIndex(ki);
+
+		int i = getIndex(ki);
 
 		swap(i, --sz);
 		siftdown(i);
@@ -82,8 +83,8 @@ public class MinIndexedHeap<T> {
 	// O(log(n))
 	public T update(int ki, T val) {
 		keyExistsAndValueNotNullOrThrow(ki, val);
-		final int i = getIndex(ki);
 
+		int i = getIndex(ki);
 		T oldVal = valueOf(ki);
 		setValue(ki, val);
 
@@ -96,6 +97,7 @@ public class MinIndexedHeap<T> {
 	// O(1)
 	public int peekMinKeyIndex() {
 		isNotEmptyOrThrow();
+
 		return getKeyIndex(0);
 	}
 
@@ -119,29 +121,44 @@ public class MinIndexedHeap<T> {
 		return minVal;
 	}
 
+	public Tuple<Integer, T> peek() {
+		return new Tuple<>(peekMinKeyIndex(), peekMinValue());
+	}
+
 	public Tuple<Integer, T> poll() {
-		Tuple<Integer, T> tuple = new Tuple<>(peekMinKeyIndex(), peekMinValue());
-		delete(peekMinKeyIndex());
+		Tuple<Integer, T> tuple = peek();
+		delete(tuple.first);
 		return tuple;
 	}
 
 	public void decrease(int ki, T val) {
-		keyExistsAndValueNotNullOrThrow(ki, val);
-		if (less(val, valueOf(ki))) {
-			setValue(ki, val);
-			siftup(getIndex(ki));
-		}
+		if (!less(val, valueOf(ki)))
+			return;
+
+		setValue(ki, val);
+		siftup(getIndex(ki));
+	}
+
+	public void increase(int ki, T val) {
+		if (!less(valueOf(ki), val))
+			return;
+
+		setValue(ki, val);
+		siftdown(getIndex(ki));
 	}
 
 	// O(1)
 	public boolean contains(int ki) {
 		keyInBoundsOrThrow(ki);
+
 		return getIndex(ki) != -1;
 	}
 
 	private void swap(int i, int j) {
-		setIndex(getKeyIndex(j), i);
+		if (i == j)
+			return;
 		setIndex(getKeyIndex(i), j);
+		setIndex(getKeyIndex(j), i);
 		int tmp = getKeyIndex(i);
 		setKeyIndex(i, getKeyIndex(j));
 		setKeyIndex(j, tmp);
@@ -158,6 +175,7 @@ public class MinIndexedHeap<T> {
 	// O(1)
 	@SuppressWarnings("unchecked")
 	public T valueOf(int ki) {
+		keyExistsOrThrow(ki);
 		return (T) vals[ki];
 	}
 
@@ -184,7 +202,7 @@ public class MinIndexedHeap<T> {
 	// Tests if the value of node i < node j
 	@SuppressWarnings("unchecked")
 	private boolean less(int i, int j) {
-		return ((Comparable<? super T>) vals[im[i]]).compareTo((T) vals[im[j]]) < 0;
+		return ((Comparable<? super T>) valueOf(getKeyIndex(i))).compareTo((T) valueOf(getKeyIndex(j))) < 0;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -205,6 +223,11 @@ public class MinIndexedHeap<T> {
 	private void keyExistsOrThrow(int ki) {
 		if (!contains(ki))
 			throw new NoSuchElementException("Index does not exist; received: " + ki);
+	}
+
+	private void keyNotExistsOrThrow(int ki) {
+		if (contains(ki))
+			throw new IllegalArgumentException("index already exists; received: " + ki);
 	}
 
 	private void valueNotNullOrThrow(Object value) {

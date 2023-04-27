@@ -1,8 +1,8 @@
 package kawre.algorithms.graph.Dijkstra;
 
 import java.util.Arrays;
-import java.util.PriorityQueue;
 
+import kawre.datastructures.heap.MinHeap;
 import kawre.util.Dist;
 import kawre.util.Edge;
 import kawre.util.Tuple;
@@ -20,8 +20,8 @@ public class DijkstraLazy extends Dijkstra {
 		Arrays.setAll(dist, (i) -> i == start ? 0 : Integer.MAX_VALUE);
 		Arrays.fill(prev, -1);
 
-		PriorityQueue<Dist> pq = new PriorityQueue<>(n);
-		pq.offer(new Dist(start, 0));
+		MinHeap<Dist> pq = new MinHeap<>(n);
+		pq.insert(new Dist(start, 0));
 
 		while (!pq.isEmpty()) {
 			Dist node = pq.poll();
@@ -37,7 +37,7 @@ public class DijkstraLazy extends Dijkstra {
 
 				prev[edge.to] = node.index;
 				dist[edge.to] = newDist;
-				pq.offer(new Dist(edge.to, newDist));
+				pq.insert(new Dist(edge.to, newDist));
 			}
 		}
 
