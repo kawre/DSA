@@ -33,7 +33,7 @@ public class MinHeap<T> {
 		return res;
 	}
 
-	public void insert(T val) {
+	public void offer(T val) {
 		valueNotNullOrThrow(val);
 
 		heap.add(val);

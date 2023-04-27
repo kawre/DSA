@@ -1,4 +1,4 @@
-package kawre.algorithms.graph.UnionFind;
+package kawre.algorithms.graph;
 
 public class UnionFind {
 	private final int C, N;
@@ -6,26 +6,23 @@ public class UnionFind {
 	private int[] parent, rank;
 	private int count;
 
-	public UnionFind(int n, boolean indexed) {
-		this.N = n;
-
-		if (N < 2)
-			throw new IllegalArgumentException("n must be >= 2");
+	public UnionFind(int maxSize, boolean indexed) {
+		this.N = maxSize;
+		maxSizeInBoundsOrThrow();
 
 		this.parent = new int[N];
 		this.rank = new int[N];
 		this.C = indexed ? 0 : 1;
 		this.count = N;
 
-		for (int i = 0; i < n; i++) {
+		for (int i = 0; i < N; i++) {
 			parent[i] = i + C;
 			rank[i] = 1;
 		}
 	}
 
 	public void union(int[] edge) {
-		if (edge[0] >= N + C || edge[0] < C || edge[1] >= N + C || edge[1] < C)
-			throw new IllegalArgumentException("edge out of range [" + C + "," + (N + C) + ")");
+		edgeInBoundsOrThrow(edge);
 
 		if (connected(edge))
 			return;
@@ -55,5 +52,15 @@ public class UnionFind {
 
 	public int getCount() {
 		return count;
+	}
+
+	private void edgeInBoundsOrThrow(int[] edge) {
+		if (edge[0] >= N + C || edge[0] < C || edge[1] >= N + C || edge[1] < C)
+			throw new IllegalArgumentException("edge out of range [" + C + "," + (N + C) + ")");
+	}
+
+	private void maxSizeInBoundsOrThrow() {
+		if (N < 2)
+			throw new IllegalArgumentException("maxSize must be in [2,∞)");
 	}
 }

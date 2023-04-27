@@ -1,4 +1,4 @@
-package kawre.algorithms.graph.Dijkstra;
+package kawre.algorithms.graph;
 
 import java.util.Arrays;
 
@@ -21,7 +21,7 @@ public class DijkstraLazy extends Dijkstra {
 		Arrays.fill(prev, -1);
 
 		MinHeap<Dist> pq = new MinHeap<>(n);
-		pq.insert(new Dist(start, 0));
+		pq.offer(new Dist(start, 0));
 
 		while (!pq.isEmpty()) {
 			Dist node = pq.poll();
@@ -37,7 +37,7 @@ public class DijkstraLazy extends Dijkstra {
 
 				prev[edge.to] = node.index;
 				dist[edge.to] = newDist;
-				pq.insert(new Dist(edge.to, newDist));
+				pq.offer(new Dist(edge.to, newDist));
 			}
 		}
 

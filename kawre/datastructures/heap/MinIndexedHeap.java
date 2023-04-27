@@ -7,12 +7,12 @@ import java.util.NoSuchElementException;
 import kawre.util.Tuple;
 
 public class MinIndexedHeap<T> {
-	private int sz;
+	private final Object[] vals;
+	private final int[] pm, im;
 
 	private final int N;
 
-	private final int[] pm, im;
-	private final Object[] vals;
+	private int sz;
 
 	public MinIndexedHeap(int maxSize) {
 		if (maxSize <= 0)
@@ -51,7 +51,7 @@ public class MinIndexedHeap<T> {
 	}
 
 	// O(log(n))
-	public void insert(int ki, T val) {
+	public void offer(int ki, T val) {
 		keyNotExistsOrThrow(ki);
 		valueNotNullOrThrow(val);
 
@@ -132,6 +132,8 @@ public class MinIndexedHeap<T> {
 	}
 
 	public void decrease(int ki, T val) {
+		keyExistsAndValueNotNullOrThrow(ki, val);
+
 		if (!less(val, valueOf(ki)))
 			return;
 
@@ -140,6 +142,8 @@ public class MinIndexedHeap<T> {
 	}
 
 	public void increase(int ki, T val) {
+		keyExistsAndValueNotNullOrThrow(ki, val);
+
 		if (!less(valueOf(ki), val))
 			return;
 
