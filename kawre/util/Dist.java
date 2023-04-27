@@ -1,4 +1,4 @@
-package Util;
+package kawre.util;
 
 public class Dist implements Comparable<Dist> {
 	public int index;

@@ -1,8 +1,8 @@
-package algorithms.Dijkstra;
+package kawre.algorithms.Dijkstra;
 
 import java.util.Arrays;
 
-import Util.Edge;
+import kawre.util.Edge;
 
 public class Main {
 	public static void main(String[] args) {

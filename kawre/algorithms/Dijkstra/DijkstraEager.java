@@ -1,11 +1,11 @@
-package algorithms.Dijkstra;
+package kawre.algorithms.Dijkstra;
 
 import java.util.Arrays;
 
-import Util.Dist;
-import Util.Edge;
-import Util.Tuple;
-import datastructures.PriorityQueue.MinIndexedHeap;
+import kawre.datastructures.PriorityQueue.MinIndexedHeap;
+import kawre.util.Dist;
+import kawre.util.Edge;
+import kawre.util.Tuple;
 
 public class DijkstraEager extends Dijkstra {
 	public DijkstraEager(int n) {

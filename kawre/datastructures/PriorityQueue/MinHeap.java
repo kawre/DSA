@@ -1,4 +1,4 @@
-package datastructures.PriorityQueue;
+package kawre.datastructures.PriorityQueue;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -1,10 +1,10 @@
-package datastructures.PriorityQueue;
+package kawre.datastructures.PriorityQueue;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import Util.Tuple;
+import kawre.util.Tuple;
 
 public class MinIndexedHeap<T> {
 	private int sz;

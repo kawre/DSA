@@ -1,11 +1,11 @@
-package algorithms.Dijkstra;
+package kawre.algorithms.Dijkstra;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import Util.Edge;
-import Util.Tuple;
+import kawre.util.Edge;
+import kawre.util.Tuple;
 
 public abstract class Dijkstra {
 	protected List<List<Edge>> graph;

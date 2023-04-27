@@ -1,4 +1,4 @@
-package datastructures.PriorityQueue;
+package kawre.datastructures.PriorityQueue;
 
 public class Main {
 	public static void main(String[] args) {

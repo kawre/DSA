@@ -1,4 +1,4 @@
-package Util;
+package kawre.util;
 
 public class Tuple<K, V> {
 	public K first;

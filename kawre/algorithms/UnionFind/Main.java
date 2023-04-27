@@ -1,4 +1,4 @@
-package algorithms.UnionFind;
+package kawre.algorithms.UnionFind;
 
 public class Main {
 	public static void main(String[] args) {

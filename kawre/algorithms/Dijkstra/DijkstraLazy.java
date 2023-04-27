@@ -1,11 +1,11 @@
-package algorithms.Dijkstra;
+package kawre.algorithms.Dijkstra;
 
 import java.util.Arrays;
 import java.util.PriorityQueue;
 
-import Util.Dist;
-import Util.Edge;
-import Util.Tuple;
+import kawre.util.Dist;
+import kawre.util.Edge;
+import kawre.util.Tuple;
 
 public class DijkstraLazy extends Dijkstra {
 	public DijkstraLazy(int n) {

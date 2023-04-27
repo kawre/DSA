@@ -1,4 +1,4 @@
-package algorithms.UnionFind;
+package kawre.algorithms.UnionFind;
 
 public class UnionFind {
 	private final int C, N;
