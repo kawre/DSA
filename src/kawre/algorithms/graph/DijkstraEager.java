@@ -13,6 +13,8 @@ public class DijkstraEager extends Dijkstra {
 	}
 
 	public Tuple<int[], int[]> dijkstra(int start) {
+		nodeInBoundsOrThrow(start);
+
 		boolean[] vis = new boolean[n];
 		int[] dist = new int[n], prev = new int[n];
 		Arrays.setAll(dist, (i) -> i == start ? 0 : Integer.MAX_VALUE);
