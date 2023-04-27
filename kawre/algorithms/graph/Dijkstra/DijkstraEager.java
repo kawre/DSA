@@ -1,8 +1,8 @@
-package kawre.algorithms.Dijkstra;
+package kawre.algorithms.graph.Dijkstra;
 
 import java.util.Arrays;
 
-import kawre.datastructures.PriorityQueue.MinIndexedHeap;
+import kawre.datastructures.heap.MinIndexedHeap;
 import kawre.util.Dist;
 import kawre.util.Edge;
 import kawre.util.Tuple;

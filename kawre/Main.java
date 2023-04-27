@@ -2,9 +2,8 @@ package kawre;
 
 import java.util.Arrays;
 
-import kawre.algorithms.Dijkstra.Dijkstra;
-import kawre.algorithms.Dijkstra.DijkstraEager;
-import kawre.algorithms.Dijkstra.DijkstraLazy;
+import kawre.algorithms.graph.Dijkstra.Dijkstra;
+import kawre.algorithms.graph.Dijkstra.DijkstraEager;
 import kawre.util.Edge;
 
 public class Main {

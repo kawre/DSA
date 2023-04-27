@@ -1,4 +1,4 @@
-package kawre.algorithms.Dijkstra;
+package kawre.algorithms.graph.Dijkstra;
 
 import java.util.ArrayList;
 import java.util.Collections;
