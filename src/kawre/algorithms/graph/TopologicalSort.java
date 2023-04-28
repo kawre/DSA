@@ -1,7 +1,5 @@
 package kawre.algorithms.graph;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +26,6 @@ public class TopologicalSort {
 	}
 
 	public static void test() {
-		System.out.println(TopologicalSort.sort(Dummy.graph()));
+		System.out.println(TopologicalSort.sort(Dummy.graphChar()));
 	}
 }

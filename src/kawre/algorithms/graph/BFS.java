@@ -1,7 +1,5 @@
 package kawre.algorithms.graph;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -28,6 +26,6 @@ public class BFS {
 	}
 
 	public static void test() {
-		BFS.iterative(Dummy.graph(), 'A');
+		BFS.iterative(Dummy.graphInt(), 0);
 	}
 }

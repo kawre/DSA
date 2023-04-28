@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Dummy {
-	public static Map<Character, List<Character>> graph() {
+	public static Map<Character, List<Character>> graphChar() {
 		Map<Character, List<Character>> graph = new HashMap<>();
 
 		for (char c = 'A'; c <= 'M'; c++)
@@ -40,6 +40,16 @@ public class Dummy {
 		graph.get('J').add('L');
 
 		graph.get('K').add('J');
+
+		return graph;
+	}
+
+	public static Map<Integer, List<Integer>> graphInt() {
+		Map<Integer, List<Integer>> graph = new HashMap<>();
+		List<List<Integer>> randomGraph = new RandomGraph().adjacencyList;
+
+		for (int i = 0; i < randomGraph.size(); i++)
+			graph.put(i, randomGraph.get(i));
 
 		return graph;
 	}

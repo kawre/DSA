@@ -1,7 +1,5 @@
 package kawre.algorithms.graph;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -11,7 +9,6 @@ import java.util.Stack;
 import kawre.util.Dummy;
 
 public class DFS {
-
 	public static <T> void iterative(Map<T, List<T>> graph, T start) {
 		Set<T> vis = new HashSet<>();
 		Stack<T> stack = new Stack<>();
@@ -39,11 +36,11 @@ public class DFS {
 
 	public static void test() {
 		System.out.print("Iterative: ");
-		DFS.iterative(Dummy.graph(), 'A');
+		DFS.iterative(Dummy.graphInt(), 0);
 		System.out.println();
 
 		System.out.print("Recursive: ");
-		DFS.recursive(Dummy.graph(), new HashSet<>(), 'A');
+		DFS.recursive(Dummy.graphInt(), new HashSet<>(), 0);
 		System.out.println();
 	}
 }
