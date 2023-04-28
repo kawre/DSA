@@ -11,6 +11,8 @@ This GitHub repository contains my personal implementations of various data stru
 ## [📂Algorithms](/src/kawre/algorithms)
 
 - [📌Graph](/src/kawre/algorithms/graph/)
+  - [DFS](/src/kawre/algorithms/graph/DFS.java)
+  - [BFS](/src/kawre/algorithms/graph/BFS.java)
   - [Topological Sort](/src/kawre/algorithms/graph/TopologicalSort.java)
   - [Dijkstra](/src/kawre/algorithms/graph/Dijkstra.java)
     - [Lazy (MinHeap)](/src/kawre/algorithms/graph/Dijkstra.java)
