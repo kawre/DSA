@@ -1,34 +1,99 @@
 package kawre.algorithms.graph;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
+import kawre.datastructures.heap.MinHeap;
+import kawre.datastructures.heap.MinIndexedHeap;
+import kawre.util.Dist;
 import kawre.util.Edge;
 import kawre.util.Tuple;
 
-public abstract class Dijkstra {
-	protected List<List<Edge>> graph;
-	protected int n;
+public class Dijkstra {
+	public static Tuple<int[], int[]> eager(Map<Integer, List<Edge>> graph, int start) {
+		int n = graph.size();
+		nodeInBoundsOrThrow(start, n);
 
-	public Dijkstra(int n) {
-		this.n = n;
-		createEmptyGraph();
+		boolean[] vis = new boolean[n];
+		int[] dist = new int[n], prev = new int[n];
+		Arrays.setAll(dist, (i) -> i == start ? 0 : Integer.MAX_VALUE);
+		Arrays.fill(prev, -1);
+
+		MinIndexedHeap<Integer> ipq = new MinIndexedHeap<>(n);
+		ipq.offer(start, 0);
+
+		while (!ipq.isEmpty()) {
+			Dist node = new Dist(ipq.poll());
+			vis[node.index] = true;
+
+			if (dist[node.index] < node.dist)
+				continue;
+
+			for (Edge edge : graph.get(node.index)) {
+				int newDist = dist[node.index] + edge.cost;
+				if (vis[edge.to] || newDist >= dist[edge.to])
+					continue;
+
+				dist[edge.to] = newDist;
+				prev[edge.to] = node.index;
+
+				if (!ipq.contains(edge.to))
+					ipq.offer(edge.to, newDist);
+				else
+					ipq.decrease(edge.to, newDist);
+			}
+		}
+
+		return new Tuple<>(dist, prev);
 	}
 
-	abstract public Tuple<int[], int[]> dijkstra(int start);
+	public static Tuple<int[], int[]> lazy(Map<Integer, List<Edge>> graph, int start) {
+		int n = graph.size();
+		nodeInBoundsOrThrow(start, n);
 
-	public int shortestPath(int start, int end) {
-		pathInBoundsOrThrow(start, end);
+		boolean[] vis = new boolean[n];
+		int[] dist = new int[n], prev = new int[n];
+		Arrays.setAll(dist, (i) -> i == start ? 0 : Integer.MAX_VALUE);
+		Arrays.fill(prev, -1);
 
-		return this.dijkstra(start).first[end];
+		MinHeap<Dist> pq = new MinHeap<>(n);
+		pq.offer(new Dist(start, 0));
+
+		while (!pq.isEmpty()) {
+			Dist node = pq.poll();
+			vis[node.index] = true;
+
+			if (dist[node.index] < node.dist)
+				continue;
+
+			for (Edge edge : graph.get(node.index)) {
+				int newDist = dist[node.index] + edge.cost;
+				if (vis[edge.to] || newDist >= dist[edge.to])
+					continue;
+
+				prev[edge.to] = node.index;
+				dist[edge.to] = newDist;
+				pq.offer(new Dist(edge.to, newDist));
+			}
+		}
+
+		return new Tuple<>(dist, prev);
 	}
 
-	public List<Integer> findShortestPath(int start, int end) {
-		pathInBoundsOrThrow(start, end);
+	public static int shortestPath(Map<Integer, List<Edge>> graph, int start, int end) {
+		rangeInBoundsOrThrow(start, end, graph.size());
+
+		return eager(graph, start).first[end];
+	}
+
+	public static List<Integer> findShortestPath(Map<Integer, List<Edge>> graph, int start, int end) {
+		rangeInBoundsOrThrow(start, end, graph.size());
 
 		List<Integer> path = new ArrayList<>();
-		Tuple<int[], int[]> tuple = this.dijkstra(start);
+		Tuple<int[], int[]> tuple = eager(graph, start);
 		int[] dist = tuple.first, prev = tuple.second;
 
 		if (dist[end] == Integer.MAX_VALUE)
@@ -41,38 +106,15 @@ public abstract class Dijkstra {
 		return path;
 	}
 
-	public void addEdge(int from, Edge edge) {
-		nodeInBoundsOrThrow(from);
-		edgeInBoundsOrThrow(edge.to);
-
-		graph.get(from).add(edge);
-	}
-
-	private void createEmptyGraph() {
-		graph = new ArrayList<>(n);
-		for (int i = 0; i < n; i++)
-			graph.add(new ArrayList<>());
-	}
-
-	protected void edgeInBoundsOrThrow(int to) {
-		if (to < 0 || to >= n)
-			throw new IndexOutOfBoundsException("Edge " + to + " out of range of [0," + n + ")");
-	}
-
-	protected void nodeInBoundsOrThrow(int i) {
+	private static void nodeInBoundsOrThrow(int i, int n) {
 		if (i < 0 || i >= n)
 			throw new IndexOutOfBoundsException("Node " + i + " out of range of [0," + n + ")");
 	}
 
-	protected void pathInBoundsOrThrow(int start, int end) {
+	private static void rangeInBoundsOrThrow(int start, int end, int n) {
 		if (start > end)
 			throw new IllegalArgumentException("Starting path can't be bigger than the ending path.");
 		if (start < 0 || start >= n || end < 0 || end >= n)
 			throw new IndexOutOfBoundsException("Path " + start + " -> " + end + " out of range of [0," + n + ")");
-	}
-
-	@Override
-	public String toString() {
-		return graph.toString();
 	}
 }
