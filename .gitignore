@@ -1,0 +1,5 @@
+/ftp
+/bin
+.sources.txt
+compile.sh
+src/Main.java
